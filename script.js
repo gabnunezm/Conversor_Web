@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.documentElement.classList.remove("dark")
     }
   
-    // Cambiar tema
+    // Cambiar tema de oscuro a claro
     themeToggle.addEventListener("click", () => {
       if (document.documentElement.classList.contains("dark")) {
         document.documentElement.classList.remove("dark")
@@ -37,6 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
   
     // Reconocimiento de voz
     let recognition = null
+    let hasRecordedSomething = false
+  
     if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
   
@@ -48,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
         recognition.lang = "es-ES" // Idioma predeterminado
   
         speechOutput.value = ""
+        speechOutput.readOnly = true // Asegurar que sea de solo lectura durante la grabación
         recordingStatus.textContent = "Solicitando permisos..."
   
         recognition.onstart = () => {
@@ -64,6 +67,12 @@ document.addEventListener("DOMContentLoaded", () => {
           stopRecordingBtn.classList.add("hidden")
           stopRecordingBtn.classList.remove("pulse")
           console.log("Reconocimiento finalizado")
+  
+          // Hacer el área de texto editable solo si se ha grabado algo
+          if (speechOutput.value.trim() !== "") {
+            hasRecordedSomething = true
+            speechOutput.readOnly = false
+          }
         }
   
         recognition.onresult = (event) => {
@@ -95,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
           stopRecordingBtn.classList.add("hidden")
           stopRecordingBtn.classList.remove("pulse")
   
-          // Mensajes de error más descriptivos
+          // Mensajes de error
           if (event.error === "not-allowed") {
             recordingStatus.textContent =
               "Error: Permiso de micrófono denegado. Verifica la configuración de tu navegador."
@@ -148,6 +157,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Limpiar texto reconocido
     clearSpeechBtn.addEventListener("click", () => {
       speechOutput.value = ""
+      // Si se limpia el texto, volver a hacer el área de solo lectura
+      hasRecordedSomething = false
+      speechOutput.readOnly = true
     })
   
     // Síntesis de voz
@@ -225,13 +237,4 @@ document.addEventListener("DOMContentLoaded", () => {
         speakTextBtn.disabled = false
       }
     })
-  
-    // Transferir texto de voz a texto a la sección de texto a voz
-    speechOutput.addEventListener("dblclick", () => {
-      if (speechOutput.value) {
-        textInput.value = speechOutput.value
-      }
-    })
-  })
-  
-  
+  })  
