@@ -22,37 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const audioPlayer = document.getElementById("audio-player")
   const transcribeAudioBtn = document.getElementById("transcribe-audio")
 
-  // Obtener la API Key desde el archivo de configuración
-  // Si no está disponible, intentar obtenerla del localStorage
-  let assemblyApiKey = ""
-
-  // Declarar CONFIG antes de usarlo.
-  const CONFIG = {}
-
-  try {
-    // Intentar obtener la API Key del archivo de configuración
-    if (typeof CONFIG !== "undefined" && CONFIG.ASSEMBLY_API_KEY) {
-      assemblyApiKey = CONFIG.ASSEMBLY_API_KEY
-    }
-  } catch (error) {
-    console.log("Archivo de configuración no encontrado, verificando localStorage...")
-  }
-
-  // Si no se encontró en el archivo de configuración, intentar obtenerla del localStorage
-  if (!assemblyApiKey || assemblyApiKey === "TU_API_KEY_AQUÍ") {
-    assemblyApiKey = localStorage.getItem("assemblyApiKey") || ""
-
-    // Si tampoco está en localStorage, solicitar al usuario
-    if (!assemblyApiKey) {
-      const apiKeyPrompt = prompt(
-        "Por favor, ingresa tu API Key de AssemblyAI (se guardará localmente en tu navegador):",
-      )
-      if (apiKeyPrompt) {
-        assemblyApiKey = apiKeyPrompt
-        localStorage.setItem("assemblyApiKey", assemblyApiKey)
-      }
-    }
-  }
+  // PEGA TU API KEY DE ASSEMBLYAI AQUÍ
 
   // Inicializar tema
   if (
@@ -377,17 +347,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Verificar que tenemos una API key
-    if (!assemblyApiKey) {
-      const apiKeyPrompt = prompt(
-        "Por favor, ingresa tu API Key de AssemblyAI (se guardará localmente en tu navegador):",
-      )
-      if (apiKeyPrompt) {
-        assemblyApiKey = apiKeyPrompt
-        localStorage.setItem("assemblyApiKey", assemblyApiKey)
-      } else {
-        alert("Se requiere una API Key para transcribir audio")
-        return
-      }
+    if (!assemblyApiKey || assemblyApiKey === "TU_API_KEY_AQUÍ") {
+      alert("Por favor, configura tu API Key de AssemblyAI en el archivo script.js")
+      return
     }
 
     try {
