@@ -22,8 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const audioPlayer = document.getElementById("audio-player")
   const transcribeAudioBtn = document.getElementById("transcribe-audio")
 
-  // PEGA TU API KEY DE ASSEMBLYAI AQUÍ
-
   // Inicializar tema
   if (
     localStorage.getItem("theme") === "dark" ||
