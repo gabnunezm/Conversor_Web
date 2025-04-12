@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Si no está disponible, intentar obtenerla del localStorage
   let assemblyApiKey = ""
 
-  // Declarar CONFIG antes de usarlo.  This assumes CONFIG is a global object.  If it's supposed to be imported, the import statement should go here.
+  // Declarar CONFIG antes de usarlo.
   const CONFIG = {}
 
   try {
